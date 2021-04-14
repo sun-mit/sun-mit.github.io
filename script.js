@@ -104,6 +104,7 @@ async function postData(url = '', data = {}) {
     const allmessage = `Name who Mailed You : ${name}
     Email: ${email}
     Message: ${message}
+    From sun-mit.github.io.
     `
     // console.log(name, email, subject, message);
 
