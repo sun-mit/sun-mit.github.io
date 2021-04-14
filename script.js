@@ -70,3 +70,62 @@ $(document).ready(function(){
         }
     });
 });
+
+
+
+async function postData(url = '', data = {}) {
+  // Default options are marked with *
+  console.log(data.from)
+  const response = await fetch(url, {
+      
+    method: 'POST', // *GET, POST, PUT, DELETE, etc.
+    mode: 'cors', // no-cors, *cors, same-origin
+    cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+    credentials: 'same-origin', // include, *same-origin, omit
+    headers: {
+    //   'Content-Type': 'multipart/form-data'
+      'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    redirect: 'follow', // manual, *follow, error
+    referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+    body: {from:data.from, to:data.to,subject:data.subject,message:data.message} // body data type must match "Content-Type" header
+  });
+  return response.json(); // parses JSON response into native JavaScript objects
+}
+
+
+
+  document.getElementById("button_id").addEventListener("click", function () {
+
+    const name = document.getElementById('name_field').value;
+    const email = document.getElementById('email_field').value;
+    const subject = document.getElementById('sub_field').value;
+    const message = document.getElementById('message_field').value;
+    const allmessage = `Name who Mailed You : ${name}
+    Email: ${email}
+    Message: ${message}
+    `
+    // console.log(name, email, subject, message);
+
+        $.ajax({
+            url: "https://sendmailapis.herokuapp.com/mail",
+            type: "POST",
+            data: {
+              from: email,
+              to: 'amitroysunjoy@gmail.com',
+              subject: subject,
+              text: allmessage,
+            //   csrfmiddlewaretoken: getCookie("csrftoken"),
+            },
+        
+            success: function (result) {
+              alert('Mail Successfully Send!');
+            },
+            error: function (result) {
+              console.log("Network Error");
+            },
+            // complete: function(result){
+            //   clear_loader_progress(interval);
+            // }
+          });
+  });
